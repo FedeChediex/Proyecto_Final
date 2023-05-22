@@ -1,7 +1,7 @@
-import express from "express"
-import PrestamoRouter from "./src/controllers/prestamoController.js"
-import CategoriaRouter from "./src/controllers/categoriaController.js"
-import ObjetoRouter from "./src/controllers/objetoController.js"
+import express from "express";
+import PrestamoRouter from "./src/controllers/prestamoController.js";
+import CategoriaRouter from "./src/controllers/categoriaController.js";
+import ObjetoRouter from "./src/controllers/objetoController.js";
 
 const app = express()
 const port = 3000
