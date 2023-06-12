@@ -10,7 +10,7 @@ app.use(express.json())
 
 app.use("/prestamo", PrestamoRouter)
 app.use("/categoria", CategoriaRouter)
-app.use("/objeto", CategoriaRouter)
+app.use("/objeto", ObjetoRouter)
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)

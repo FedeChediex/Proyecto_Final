@@ -4,4 +4,5 @@ export class Objeto {
     estado;
     enPrestamo;
     fk_Categoria;
+    Activo
 }
