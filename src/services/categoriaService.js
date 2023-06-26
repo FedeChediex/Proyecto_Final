@@ -30,18 +30,6 @@ export class CategoriaService {
     
             return response.recordset[0];
         }
-    
-        CreateCategoria = async (categoria) => {
-            console.log('This is a function on the service');
-    
-            const pool = await sql.connect(config);
-            const response = await pool.request()
-                .input('Nombre', sql.NChar, categoria.Nombre)
-                .query(`INSERT INTO ${Tabla}()`);
-           
-    
-            return response.recordset;
-        }
        
         AddCategoria = async (categoria) => {
             var error = "Algun Atributo no fue enviado"

@@ -32,7 +32,16 @@ export class ObjetoService {
 
     UpdateObjeto = async (id, objeto) => {
         console.log('This is a function on the service');
-
+        let activo
+        if (objeto.Estado != undefined || objeto.Estado != null) {
+            objeto.Estado = O.Estado
+            if (objeto.Estado == "Disponible") {
+                activo = true
+            }
+            else {
+                activo = false
+            }
+        }
         var O = await this.GetObjetoById(id);
         console.log(O.Nombre)
         console.log(objeto.Nombre)
@@ -40,10 +49,10 @@ export class ObjetoService {
         const response = await pool.request()
             .input('Id', sql.Int, id)
             .input('Nombre', sql.NChar, objeto?.Nombre ?? O.Nombre)
-            .input('Estado', sql.NChar, objeto?.Estado ?? O.Estado)
+            .input('Estado', sql.NChar, objeto.Estado)
             .input('EnPrestamo', sql.Bit, objeto?.EnPrestamo ?? O.EnPrestamo)
             .input('FK_Categoria', sql.Int, objeto?.fk_Categoria ?? O.Fk_Categoria)
-            .input('Activo', sql.Bit, objeto?.Activo ?? O.Activo)
+            .input('Activo', sql.Bit, activo ?? O.Activo)
 
             .query(`UPDATE ${oTabla} SET Nombre = @Nombre, Estado = @Estado, EnPrestamo = @EnPrestamo, Fk_Categoria = @Fk_Categoria, Activo = @Activo  WHERE id = @Id`);
 
@@ -65,16 +74,25 @@ export class ObjetoService {
 
     AddObjeto = async (objeto) => {
         var error = "Algun Atributo no fue enviado"
-        if (!objeto.Estado || !objeto.Nombre || !objeto.EnPrestamo || !objeto.Fk_Categoria) {
+        let activo
+        console.log(objeto.Estado + objeto.Nombre + objeto.EnPrestamo + objeto.FK_Categoria)
+        if (!objeto.Estado || !objeto.Nombre || objeto.EnPrestamo == null || objeto.EnPrestamo == undefined || !objeto.FK_Categoria) {
             return error
         }
+        if (objeto.Estado == "Disponible") {
+            activo = true
+        }
+        else {
+            activo = false
+        }
+
         const pool = await sql.connect(config)
         const response = await pool.request()
             .input('Nombre', sql.NChar, objeto.Nombre)
             .input('Estado', sql.NChar, objeto.Estado)
             .input('EnPrestamo', sql.Bit, objeto.EnPrestamo)
-            .input('Fk_Categoria', sql.Int, objeto.Fk_Categoria)
-            .input('Activo', sql.Bit, objeto.Activo)
+            .input('Fk_Categoria', sql.Int, objeto.FK_Categoria)
+            .input('Activo', sql.Bit, activo)
 
             .query(`INSERT INTO ${oTabla} (Nombre , Estado , EnPrestamo , FK_Categoria, Activo) values (@Nombre, @Estado, @EnPrestamo, @FK_Categoria, @Activo)`);
         return response.recordset;

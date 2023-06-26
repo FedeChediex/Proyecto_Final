@@ -32,8 +32,7 @@ export class PrestamoService {
 
     UpdatePrestamo = async (id, prestamo) => {
         console.log('This is a function on the service');
-        console.log(prestamo.Estado)
-        console.log(prestamo.estado)
+       
         var P = await this.GetPrestamoById(id);
         const pool = await sql.connect(config);
         const response = await pool.request()
@@ -63,8 +62,12 @@ export class PrestamoService {
     }
 
     AddPrestamo = async (prestamo) => {
-        var error = "Algun Atributo no fue enviado"
-        if (!prestamo.Estado || !prestamo.FechaSolicitud || !prestamo.Fk_Objeto || !prestamo.Fk_Admin || !prestamo.Fk_Usuario) {
+        const error = "Algun Atributo no fue enviado correctamente"
+        const error01 = "Algun id no pertenece a un usuario"
+        /*if(await this.GetUserById(prestamo.Fk_Admin).Rol != true || await this.GetUserById(prestamo.Fk_Usuario).Rol != false){
+            return error01
+        }   */
+        if (!prestamo.Estado || !prestamo.FechaSolicitud || !prestamo.FK_Objeto) {
             return error
         }
         const pool = await sql.connect(config)
@@ -74,9 +77,9 @@ export class PrestamoService {
             .input('FechaAceptado', sql.Date, prestamo?.FechaAceptado?? null)
             .input('FechaEntregado', sql.Date, prestamo?.FechaEntregado?? null)
             .input('FechaDevuelto', sql.Date, prestamo?.FechaDevuelto?? null)
-            .input('Fk_Admin', sql.Int, prestamo.Fk_Admin)
-            .input('Fk_Objeto', sql.Int, prestamo.Fk_Objeto)
-            .input('Fk_Usuario', sql.Int, prestamo.Fk_Usuario)
+            .input('Fk_Admin', sql.Int, prestamo.FK_Admin)
+            .input('Fk_Objeto', sql.Int, prestamo.FK_Objeto)
+            .input('Fk_Usuario', sql.Int, prestamo.FK_Usuario)
             
             .query(`INSERT INTO ${pTabla} (Estado , Fk_Objeto , FK_Usuario , FK_Admin , FechaSolicitud , FechaAceptado , FechaEntregado, FechaDevuelto) values (@Estado, @Fk_Objeto,@FK_Usuario, @FK_Admin,@FechaSolicitud, @FechaAceptado,@FechaEntregado, @FechaDevuelto)`);
             return response.recordset;
