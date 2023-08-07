@@ -11,6 +11,7 @@ const pTabla = process.env.DB_TABLA_PRESTAMO;
 export class PrestamoService {
 
     GetPrestamo = async () => {
+        //Tengo que buscar  por DNI, Estado y si esta activo o no
         console.log('This is a function on the service');
 
         const pool = await sql.connect(config);
@@ -33,42 +34,7 @@ export class PrestamoService {
 
         return response.recordset[0];
     }
-    GetPrestamoByUser = async (id) => {
 
-        console.log('This is a function on the service', id);
-
-        const pool = await sql.connect(config);
-        const response = await pool.request()
-            .input('id', sql.Int, id)
-            .query(`SELECT * from ${pTabla} where Fk_Usuario = @id`);
-        console.log(response)
-
-        return response.recordset;
-    }
-    GetPrestamoActivo = async () => {
-
-        console.log('This is a function on the service');
-
-        const pool = await sql.connect(config);
-        const response = await pool.request()
-            .query(`SELECT * from ${pTabla} where Estado != Devuelto `);
-        console.log(response)
-
-        return response.recordset;
-    }
-    GetPrestamoEstado = async (req) => {
-
-        console.log('This is a function on the service');
-        
-        estado = req.Estado
-
-        const pool = await sql.connect(config);
-        const response = await pool.request()
-            .query(`SELECT * from ${pTabla} where Estado == ${estado} `);
-        console.log(response)
-
-        return response.recordset;
-    }
 
     
 

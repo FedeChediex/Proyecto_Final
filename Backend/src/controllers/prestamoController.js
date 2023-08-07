@@ -6,8 +6,12 @@ const prestamoService = new PrestamoService()
 
 router.get('', async (req, res) => {
     console.log(`This is a get operation`);
-
-    const prestamo = await prestamoService.GetPrestamo();
+    error = "El estado es erroneo"
+    if(req.estado != "Pendiente" && req.estado != "Aceptado" && req.estado != "Entregado" && req.estado != "Terminado")
+        {
+            return error
+        }
+    const prestamo = await prestamoService.GetPrestamo(req);
 
     return res.status(200).json(prestamo);
 });
@@ -18,26 +22,12 @@ router.get('/:id', async (req, res) => {
     const prestamo = await prestamoService.GetPrestamoById(id)
     return res.status(200).json(prestamo)
 })
-router.get('/historial/:id', async (req, res) => {
-    console.log('Get by user ID')
-    const id = req.params.id
-    const prestamo = await prestamoService.GetPrestamoByUser(id)
-    return res.status(200).json(prestamo)
-})
 router.get('/activos', async (req, res) => {
     
     const prestamo = await prestamoService.GetPrestamoActivo()
     return res.status(200).json(prestamo)
 })
-router.get('/estado', async (req, res) => {
-    error = "El estado es erroneo"
-    if(req.estado != "Pendiente" && req.estado != "Aceptado" && req.estado != "Entregado" && req.estado != "Terminado")
-        {
-            return error
-        }
-    const prestamo = await prestamoService.GetPrestamoEstado(req)
-    return res.status(200).json(prestamo)
-})
+
 
 
 router.post('', async (req, res) => {
