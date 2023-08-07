@@ -49,12 +49,11 @@ export class ObjetoService {
         const response = await pool.request()
             .input('Id', sql.Int, id)
             .input('Nombre', sql.NChar, objeto?.Nombre ?? O.Nombre)
-            .input('Estado', sql.NChar, objeto.Estado)
+            .input('Estado', sql.NChar, objeto?.Estado ?? O.Estado)
             .input('EnPrestamo', sql.Bit, objeto?.EnPrestamo ?? O.EnPrestamo)
-            .input('FK_Categoria', sql.Int, objeto?.fk_Categoria ?? O.Fk_Categoria)
-            .input('Activo', sql.Bit, activo ?? O.Activo)
+            
 
-            .query(`UPDATE ${oTabla} SET Nombre = @Nombre, Estado = @Estado, EnPrestamo = @EnPrestamo, Fk_Categoria = @Fk_Categoria, Activo = @Activo  WHERE id = @Id`);
+            .query(`UPDATE ${oTabla} SET Nombre = @Nombre, Estado = @Estado, EnPrestamo = @EnPrestamo  WHERE id = @Id`);
 
 
         return response.recordset;

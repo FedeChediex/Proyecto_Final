@@ -1,7 +1,11 @@
 import sql from 'mssql'
 import config from '../../db.js'
 import 'dotenv/config'
+import { ObjetoService } from '../services/objetoService.js'
 
+
+
+const objetoService = new ObjetoService()
 const pTabla = process.env.DB_TABLA_PRESTAMO;
 
 export class PrestamoService {
@@ -29,21 +33,77 @@ export class PrestamoService {
 
         return response.recordset[0];
     }
+    GetPrestamoByUser = async (id) => {
 
-    UpdatePrestamo = async (id, prestamo) => {
+        console.log('This is a function on the service', id);
+
+        const pool = await sql.connect(config);
+        const response = await pool.request()
+            .input('id', sql.Int, id)
+            .query(`SELECT * from ${pTabla} where Fk_Usuario = @id`);
+        console.log(response)
+
+        return response.recordset;
+    }
+    GetPrestamoActivo = async () => {
+
         console.log('This is a function on the service');
-       
+
+        const pool = await sql.connect(config);
+        const response = await pool.request()
+            .query(`SELECT * from ${pTabla} where Estado != Devuelto `);
+        console.log(response)
+
+        return response.recordset;
+    }
+    GetPrestamoEstado = async (req) => {
+
+        console.log('This is a function on the service');
+        
+        estado = req.Estado
+
+        const pool = await sql.connect(config);
+        const response = await pool.request()
+            .query(`SELECT * from ${pTabla} where Estado == ${estado} `);
+        console.log(response)
+
+        return response.recordset;
+    }
+
+    
+
+    UpdatePrestamo = async (id, prestamo, objeto) => {
+        console.log('This is a function on the service');
+        var estado = ""
+        
+        if(prestamo.FechaAceptado == null && P.FechaAceptado == null){
+            estado = "Pendiente"
+        }
+        else if (prestamo.FechaEntregado==null && P.FechaEntregado == null){
+            objeto.EnPrestamo = true
+            estado = "Aceptado"
+        }
+        else if (prestamo.FechaDevuelto == null && P.FechaDevuelto == null){
+            estado = "Entregado"
+        }
+        else{
+            objeto.EnPrestamo = false
+            estado = "Terminado"
+        }
+        
+        
+        await objetoService.UpdateObjeto(prestamo.FK_Objeto, objeto)
+
         var P = await this.GetPrestamoById(id);
         const pool = await sql.connect(config);
         const response = await pool.request()
             .input('id', sql.Int, id)
-            .input('Estado', sql.NChar, prestamo?.Estado ?? P.estado)
-            .input('FechaSolicitud', sql.Date, prestamo?.FechaSolicitud ?? P.FechaSolicitud)
+            .input('Estado', sql.NChar, estado)
             .input('FechaAceptado', sql.Date, prestamo?.FechaAceptado ?? P.FechaAceptado)
             .input('FechaEntregado', sql.Date, prestamo?.FechaEntregado ?? P.FechaEntregado)
             .input('FechaDevuelto', sql.Date, prestamo?.FechaDevuelto ?? P.FechaDevuelto)
 
-            .query(`UPDATE ${pTabla} SET Estado = @Estado, FechaSolicitud = @FechaSolicitud, FechaAceptado = @FechaAceptado, FechaEntregado = @FechaEntregado, FechaDevuelto = @FechaDevuelto  WHERE id = @Id`);
+            .query(`UPDATE ${pTabla} SET Estado = @Estado, FechaAceptado = @FechaAceptado, FechaEntregado = @FechaEntregado, FechaDevuelto = @FechaDevuelto  WHERE id = @Id`);
         console.log(response)
 
         return response.recordset;
@@ -72,8 +132,8 @@ export class PrestamoService {
         }
         const pool = await sql.connect(config)
         const response = await pool.request()
-            .input('Estado', sql.NChar, prestamo.Estado)
-            .input('FechaSolicitud', sql.Date, prestamo.FechaSolicitud)
+            .input('Estado', sql.NChar, "Pendiente")
+            .input('FechaSolicitud', sql.Date, Date.Now())
             .input('FechaAceptado', sql.Date, prestamo?.FechaAceptado?? null)
             .input('FechaEntregado', sql.Date, prestamo?.FechaEntregado?? null)
             .input('FechaDevuelto', sql.Date, prestamo?.FechaDevuelto?? null)

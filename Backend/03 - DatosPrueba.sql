@@ -1,8 +1,8 @@
--- Insertar datos en la tabla "Categoría"
-INSERT INTO dbo.Categoría (Nombre)
-VALUES ('Categoría 1'),
-       ('Categoría 2'),
-       ('Categoría 3');
+-- Insertar datos en la tabla "Categoria"
+INSERT INTO dbo.Categoria (Nombre)
+VALUES ('Categoria 1'),
+       ('Categoria 2'),
+       ('Categoria 3');
 
 -- Insertar datos en la tabla "Objeto"
 INSERT INTO dbo.Objeto (Nombre, Estado, EnPrestamo, Fk_Categoria)
@@ -28,15 +28,15 @@ VALUES (1, 'Usuario 1', 'Apellido 1'),
 -- Insertar datos en la tabla "ObjetoReporte"
 INSERT INTO dbo.ObjetoReporte (Estado, Labo, Fila, Columna, Lado)
 VALUES ('Buen estado', 'Laboratorio 1', 1, 2, 'Izquierdo'),
-       ('Dañado', 'Laboratorio 2', 3, 1, 'Derecho'),
+       ('Daiado', 'Laboratorio 2', 3, 1, 'Derecho'),
        ('Buen estado', 'Laboratorio 1', 2, 3, 'Izquierdo'),
-       ('Dañado', 'Laboratorio 2', 2, 2, 'Derecho'),
+       ('DaÃ±ado', 'Laboratorio 2', 2, 2, 'Derecho'),
        ('Buen estado', 'Laboratorio 1', 1, 1, 'Izquierdo'),
-       ('Dañado', 'Laboratorio 2', 3, 3, 'Derecho'),
+       ('DaÃ±ado', 'Laboratorio 2', 3, 3, 'Derecho'),
        ('Buen estado', 'Laboratorio 1', 2, 2, 'Izquierdo'),
-       ('Dañado', 'Laboratorio 2', 1, 3, 'Derecho'),
+       ('DaÃ±ado', 'Laboratorio 2', 1, 3, 'Derecho'),
        ('Buen estado', 'Laboratorio 1', 1, 3, 'Izquierdo'),
-       ('Dañado', 'Laboratorio 2', 2, 1, 'Derecho');
+       ('DaÃ±ado', 'Laboratorio 2', 2, 1, 'Derecho');
 
 -- Insertar datos en la tabla "Prestamo"
 INSERT INTO dbo.Prestamo (Estado, FK_Objeto, Fk_Usuario, FechaSolicitud, FechaAceptado, FechaEntregado, FechaDevuelto, FK_Admin)
@@ -53,13 +53,13 @@ VALUES ('Pendiente', 1, 1, '2023-06-01', NULL, NULL, NULL, 1),
 
 -- Insertar datos en la tabla "Reporte"
 INSERT INTO dbo.Reporte (Estado, Fk_Usuario, Fk_ObjetoReporte, Descripcion)
-VALUES ('Pendiente', 1, 1, 'Se rompió el objeto A'),
-       ('Abierto', 2, 2, 'Se rompió el objeto B'),
-       ('Resuelto', 1, 3, 'Se reparó el objeto C'),
-       ('Pendiente', 3, 4, 'Se rompió el objeto D'),
-       ('Abierto', 2, 5, 'Se rompió el objeto E'),
-       ('Resuelto', 1, 1, 'Se reparó el objeto A'),
-       ('Pendiente', 2, 3, 'Se rompió el objeto C'),
-       ('Abierto', 3, 2, 'Se rompió el objeto B'),
-       ('Resuelto', 1, 5, 'Se reparó el objeto E'),
-       ('Pendiente', 3, 4, 'Se rompió el objeto D');
+VALUES ('Pendiente', 1, 1, 'Se rompio el objeto A'),
+       ('Abierto', 2, 2, 'Se rompio el objeto B'),
+       ('Resuelto', 1, 3, 'Se reparo el objeto C'),
+       ('Pendiente', 3, 4, 'Se rompio el objeto D'),
+       ('Abierto', 2, 5, 'Se rompio el objeto E'),
+       ('Resuelto', 1, 1, 'Se reparo el objeto A'),
+       ('Pendiente', 2, 3, 'Se rompio el objeto C'),
+       ('Abierto', 3, 2, 'Se rompio el objeto B'),
+       ('Resuelto', 1, 5, 'Se reparo el objeto E'),
+       ('Pendiente', 3, 4, 'Se rompio el objeto D');
