@@ -10,16 +10,48 @@ const pTabla = process.env.DB_TABLA_PRESTAMO;
 
 export class PrestamoService {
 
-    GetPrestamo = async () => {
+    GetPrestamo = async (prestamo) => {
         //Tengo que buscar  por DNI, Estado y si esta activo o no
         console.log('This is a function on the service');
-
+        let dni = prestamo.dni
+        let estado = prestamo.estado
+        let enPrestamo = prestamo.EnPrestamo
+        let where
+        
+        if (dni || estado || enPrestamo) {
+            where = ' WHERE ';
+            
+            
+            if (prestamo.dni) {
+                var join = " INNER JOIN dbo.Usuario ON dbo.Prestamo.Fk_Usuario = dbo.Usuario.Id"
+                where += `Usuario.dni LIKE '${dni}%'`;
+                
+            }
+            
+            if (estado) {
+                if (where !== ' WHERE ') {
+                    where += ' AND ';
+                }
+                where += `Estado LIKE '${estado}%'`;
+            }
+            
+            if (enPrestamo) {
+                if (where !== ' WHERE ') {
+                    where += ' AND ';
+                }
+                where += `EnPrestamo = ${enPrestamo}`;
+            }
+        }
+        console.log(where)
         const pool = await sql.connect(config);
         const response = await pool.request()
-            .query(`SELECT * from ${pTabla}`);
+            .query(`SELECT * from ${pTabla + join + where}`);
         console.log(response)
-
-        return response.recordset;
+        var res = response.recordset
+        for (const obj of res) {
+            delete obj.Id;
+          }
+        return res;
     }
 
     GetPrestamoById = async (id) => {

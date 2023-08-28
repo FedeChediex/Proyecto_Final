@@ -6,12 +6,20 @@ const oTabla = process.env.DB_TABLA_OBJETO;
 
 export class ObjetoService {
 
-    GetObjeto = async () => {
+    GetObjeto = async (req) => {
         console.log('This is a function on the service');
+        const cat = req.Categoria
+        console.log(req.Categoria)
+        var where = ""
+        if(cat)
+        {
+            where = ` Where Fk_Categoria = ${cat}`
+            console.log("jsajdsajdd " + cat)
+        }
 
         const pool = await sql.connect(config);
         const response = await pool.request()
-            .query(`SELECT * from ${oTabla}`);
+            .query(`SELECT * from ${oTabla + where}`);
         console.log(response)
 
         return response.recordset;
@@ -32,7 +40,7 @@ export class ObjetoService {
 
     UpdateObjeto = async (id, objeto) => {
         console.log('This is a function on the service');
-        let activo
+        /*let activo
         if (objeto.Estado != undefined || objeto.Estado != null) {
             objeto.Estado = O.Estado
             if (objeto.Estado == "Disponible") {
@@ -41,10 +49,9 @@ export class ObjetoService {
             else {
                 activo = false
             }
-        }
+        }*/
         var O = await this.GetObjetoById(id);
-        console.log(O.Nombre)
-        console.log(objeto.Nombre)
+        
         const pool = await sql.connect(config);
         const response = await pool.request()
             .input('Id', sql.Int, id)
@@ -59,7 +66,7 @@ export class ObjetoService {
         return response.recordset;
     }
 
-    DeleteObjeto = async (id) => {
+    /*DeleteObjeto = async (id) => {
         console.log('This is a function on the service');
 
         const pool = await sql.connect(config);
@@ -69,20 +76,12 @@ export class ObjetoService {
 
 
         return response.recordset;
-    }
+    }*/
 
     AddObjeto = async (objeto) => {
         var error = "Algun Atributo no fue enviado"
-        let activo
-        console.log(objeto.Estado + objeto.Nombre + objeto.EnPrestamo + objeto.FK_Categoria)
-        if (!objeto.Estado || !objeto.Nombre || objeto.EnPrestamo == null || objeto.EnPrestamo == undefined || !objeto.FK_Categoria) {
+        if (!objeto.Estado || !objeto.Nombre || !objeto.EnPrestamo || !objeto.FK_Categoria) {
             return error
-        }
-        if (objeto.Estado == "Disponible") {
-            activo = true
-        }
-        else {
-            activo = false
         }
 
         const pool = await sql.connect(config)
@@ -91,9 +90,9 @@ export class ObjetoService {
             .input('Estado', sql.NChar, objeto.Estado)
             .input('EnPrestamo', sql.Bit, objeto.EnPrestamo)
             .input('Fk_Categoria', sql.Int, objeto.FK_Categoria)
-            .input('Activo', sql.Bit, activo)
+            
 
-            .query(`INSERT INTO ${oTabla} (Nombre , Estado , EnPrestamo , FK_Categoria, Activo) values (@Nombre, @Estado, @EnPrestamo, @FK_Categoria, @Activo)`);
+            .query(`INSERT INTO ${oTabla} (Nombre , Estado , EnPrestamo , FK_Categoria) values (@Nombre, @Estado, @EnPrestamo, @FK_Categoria)`);
         return response.recordset;
     }
 }

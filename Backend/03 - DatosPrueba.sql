@@ -18,12 +18,12 @@ VALUES ('Objeto 1', 'Disponible', 0, 1),
        ('Objeto 10', 'Disponible', 0, 1);
 
 -- Insertar datos en la tabla "Usuario"
-INSERT INTO dbo.Usuario (Rol, Nombre, Apellido)
-VALUES (1, 'Usuario 1', 'Apellido 1'),
-       (0, 'Usuario 2', 'Apellido 2'),
-       (0, 'Usuario 3', 'Apellido 3'),
-       (1, 'Usuario 4', 'Apellido 4'),
-       (0, 'Usuario 5', 'Apellido 5');
+INSERT INTO dbo.Usuario (Rol, Nombre, Apellido, Dni)
+VALUES (1, 'Usuario 1', 'Apellido 1', 4654654),
+       (0, 'Usuario 2', 'Apellido 2',5465465),
+       (0, 'Usuario 3', 'Apellido 3',476875),
+       (1, 'Usuario 4', 'Apellido 4',4643435),
+       (0, 'Usuario 5', 'Apellido 5', 6787686);
 
 -- Insertar datos en la tabla "ObjetoReporte"
 INSERT INTO dbo.ObjetoReporte (Estado, Labo, Fila, Columna, Lado)

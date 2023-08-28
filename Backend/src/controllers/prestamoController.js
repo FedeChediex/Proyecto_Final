@@ -6,12 +6,9 @@ const prestamoService = new PrestamoService()
 
 router.get('', async (req, res) => {
     console.log(`This is a get operation`);
-    error = "El estado es erroneo"
-    if(req.estado != "Pendiente" && req.estado != "Aceptado" && req.estado != "Entregado" && req.estado != "Terminado")
-        {
-            return error
-        }
-    const prestamo = await prestamoService.GetPrestamo(req);
+    let error = "El estado es erroneo"
+    
+    const prestamo = await prestamoService.GetPrestamo(req.query);
 
     return res.status(200).json(prestamo);
 });

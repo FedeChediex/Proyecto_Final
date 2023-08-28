@@ -8,10 +8,10 @@ const objetoService = new ObjetoService()
 router.get('', async (req, res) => {
     console.log(`This is a get operation`)
     
-    const objeto = await objetoService.GetObjeto()
+    const objeto = await objetoService.GetObjeto(req.query)
 
     return res.status(200).json(objeto)
-});
+})
 
 router.get('/:id', async (req, res) => {
     console.log('Get by ID')
