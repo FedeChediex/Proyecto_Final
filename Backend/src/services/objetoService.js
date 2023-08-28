@@ -9,13 +9,29 @@ export class ObjetoService {
     GetObjeto = async (req) => {
         console.log('This is a function on the service');
         const cat = req.Categoria
-        console.log(req.Categoria)
+        const  enPrestamo = req.EnPrestamo
+        const nombre = req.Nombre
         var where = ""
-        if(cat)
+        if(cat||enPrestamo||nombre)
         {
-            where = ` Where Fk_Categoria = ${cat}`
-            console.log("jsajdsajdd " + cat)
+            where = ' WHERE ';
+            if(cat){
+                where += ` Fk_Categoria = ${cat}`
+            }
+            if (enPrestamo) {
+                if (where !== ' WHERE ') {
+                    where += ' AND ';
+                }
+                where += `EnPrestamo = ${enPrestamo}`;
+            }
+            if (nombre) {
+                if (where !== ' WHERE ') {
+                    where += ' AND ';
+                }
+                where += `Nombre LIKE '${nombre}%'`;
+            }
         }
+        console.log(where)
 
         const pool = await sql.connect(config);
         const response = await pool.request()

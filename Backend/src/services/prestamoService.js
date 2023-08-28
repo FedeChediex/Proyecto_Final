@@ -15,15 +15,15 @@ export class PrestamoService {
         console.log('This is a function on the service');
         let dni = prestamo.dni
         let estado = prestamo.estado
-        let enPrestamo = prestamo.EnPrestamo
-        let where
-        
-        if (dni || estado || enPrestamo) {
+       
+        let where= " "
+        var join = " "
+        if (dni || estado) {
             where = ' WHERE ';
             
             
             if (prestamo.dni) {
-                var join = " INNER JOIN dbo.Usuario ON dbo.Prestamo.Fk_Usuario = dbo.Usuario.Id"
+                join = " INNER JOIN dbo.Usuario ON dbo.Prestamo.Fk_Usuario = dbo.Usuario.Id"
                 where += `Usuario.dni LIKE '${dni}%'`;
                 
             }
@@ -35,14 +35,9 @@ export class PrestamoService {
                 where += `Estado LIKE '${estado}%'`;
             }
             
-            if (enPrestamo) {
-                if (where !== ' WHERE ') {
-                    where += ' AND ';
-                }
-                where += `EnPrestamo = ${enPrestamo}`;
-            }
+            
         }
-        console.log(where)
+        
         const pool = await sql.connect(config);
         const response = await pool.request()
             .query(`SELECT * from ${pTabla + join + where}`);
@@ -70,10 +65,13 @@ export class PrestamoService {
 
     
 
-    UpdatePrestamo = async (id, prestamo, objeto) => {
+    UpdatePrestamo = async (id, prestamo) => {
         console.log('This is a function on the service');
         var estado = ""
+        var P = await this.GetPrestamoById(id);
+        var objeto = await objetoService.GetObjetoById(P.FK_Objeto)
         
+
         if(prestamo.FechaAceptado == null && P.FechaAceptado == null){
             estado = "Pendiente"
         }
@@ -90,9 +88,9 @@ export class PrestamoService {
         }
         
         
-        await objetoService.UpdateObjeto(prestamo.FK_Objeto, objeto)
+        await objetoService.UpdateObjeto(P.FK_Objeto, objeto)
 
-        var P = await this.GetPrestamoById(id);
+        
         const pool = await sql.connect(config);
         const response = await pool.request()
             .input('id', sql.Int, id)
@@ -125,16 +123,24 @@ export class PrestamoService {
         /*if(await this.GetUserById(prestamo.Fk_Admin).Rol != true || await this.GetUserById(prestamo.Fk_Usuario).Rol != false){
             return error01
         }   */
-        if (!prestamo.Estado || !prestamo.FechaSolicitud || !prestamo.FK_Objeto) {
+       
+        if (!prestamo.FK_Objeto) {
             return error
         }
+        const timeElapsed = Date.now();
+        const fecha = new Date(timeElapsed);
+        fecha.toISOString()
+        console.log(fecha)
+        var objeto = {EnPrestamo:true}
+        await objetoService.UpdateObjeto(prestamo.FK_Objeto, objeto)
+
         const pool = await sql.connect(config)
         const response = await pool.request()
             .input('Estado', sql.NChar, "Pendiente")
-            .input('FechaSolicitud', sql.Date, Date.Now())
-            .input('FechaAceptado', sql.Date, prestamo?.FechaAceptado?? null)
-            .input('FechaEntregado', sql.Date, prestamo?.FechaEntregado?? null)
-            .input('FechaDevuelto', sql.Date, prestamo?.FechaDevuelto?? null)
+            .input('FechaSolicitud', sql.Date, fecha)
+            .input('FechaAceptado', sql.Date,  null)
+            .input('FechaEntregado', sql.Date,  null)
+            .input('FechaDevuelto', sql.Date, null)
             .input('Fk_Admin', sql.Int, prestamo.FK_Admin)
             .input('Fk_Objeto', sql.Int, prestamo.FK_Objeto)
             .input('Fk_Usuario', sql.Int, prestamo.FK_Usuario)

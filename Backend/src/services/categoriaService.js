@@ -42,6 +42,6 @@ export class CategoriaService {
                 
                 .query(`INSERT INTO ${Tabla} (Nombre) values (@Nombre)`);
                 return response.recordset;
-        }
+            }
     }
     
