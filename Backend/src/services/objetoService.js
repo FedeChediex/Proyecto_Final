@@ -7,12 +7,13 @@ const oTabla = process.env.DB_TABLA_OBJETO;
 export class ObjetoService {
 
     GetObjeto = async (req) => {
+        //Busqueda por activo
         console.log('This is a function on the service');
         const cat = req.Categoria
         const  enPrestamo = req.EnPrestamo
         const nombre = req.Nombre
         var where = ""
-        if(cat||enPrestamo||nombre)
+        if(cat||enPrestamo||nombre||activo)
         {
             where = ' WHERE ';
             if(cat){
@@ -30,13 +31,18 @@ export class ObjetoService {
                 }
                 where += `Nombre LIKE '${nombre}%'`;
             }
+            if (activo) {
+                if (where !== ' WHERE ') {
+                    where += ' AND ';
+                }
+                where += `Activo = ${activo}`;
+            }
         }
-        console.log(where)
-
+        
         const pool = await sql.connect(config);
         const response = await pool.request()
             .query(`SELECT * from ${oTabla + where}`);
-        console.log(response)
+        
 
         return response.recordset;
     }
@@ -49,30 +55,32 @@ export class ObjetoService {
         const response = await pool.request()
             .input('id', sql.Int, id)
             .query(`SELECT * from ${oTabla} where id = @id`);
-        console.log(response)
-
+       
         return response.recordset[0];
     }
 
     UpdateObjeto = async (id, objeto) => {
         console.log('This is a function on the service');
-        /*let activo
-        if (objeto.Estado != undefined || objeto.Estado != null) {
-            objeto.Estado = O.Estado
-            if (objeto.Estado == "Disponible") {
+        let activo
+        if (objeto.Estado) {
+            
+            if (objeto.EnPrestamo == 1) {
                 activo = true
+                estado = "prestado"
             }
             else {
                 activo = false
+                estado = "Disponible"
             }
-        }*/
+        }
+        
         var O = await this.GetObjetoById(id);
         
         const pool = await sql.connect(config);
         const response = await pool.request()
             .input('Id', sql.Int, id)
             .input('Nombre', sql.NChar, objeto?.Nombre ?? O.Nombre)
-            .input('Estado', sql.NChar, objeto?.Estado ?? O.Estado)
+            .input('Estado', sql.NChar, estado)
             .input('EnPrestamo', sql.Bit, objeto?.EnPrestamo ?? O.EnPrestamo)
             
 

@@ -11,7 +11,7 @@ const pTabla = process.env.DB_TABLA_PRESTAMO;
 export class PrestamoService {
 
     GetPrestamo = async (prestamo) => {
-        //Tengo que buscar  por DNI, Estado y si esta activo o no
+        
         console.log('This is a function on the service');
         let dni = prestamo.dni
         let estado = prestamo.estado
@@ -120,9 +120,6 @@ export class PrestamoService {
     AddPrestamo = async (prestamo) => {
         const error = "Algun Atributo no fue enviado correctamente"
         const error01 = "Algun id no pertenece a un usuario"
-        /*if(await this.GetUserById(prestamo.Fk_Admin).Rol != true || await this.GetUserById(prestamo.Fk_Usuario).Rol != false){
-            return error01
-        }   */
        
         if (!prestamo.FK_Objeto) {
             return error
