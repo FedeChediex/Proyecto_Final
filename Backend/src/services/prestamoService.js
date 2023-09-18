@@ -122,12 +122,12 @@ export class PrestamoService {
 
     AddPrestamo = async (prestamo) => {
         const error = "Algun Atributo no fue enviado correctamente"
-        const error01 = "El objeto no esta activo"
-       
+        const error01 = "El objeto no esta activo o se encuentra en un prestamo"
+        let obj = await objetoService.GetObjetoById(prestamo.FK_Objeto)
         if (!prestamo.FK_Objeto) {
             return error
         }
-        if(await objetoService.GetObjetoById(prestamo.FK_Objeto).Activo == false){
+        if(obj.Activo == false || obj.EnPrestamo == true){
             return error01
         }
         
