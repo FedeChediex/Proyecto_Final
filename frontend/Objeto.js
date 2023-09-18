@@ -28,7 +28,10 @@ const App = () => {
   };
 
   const handleConfirm = () => {
-    
+
+    setSelectedItem(null);
+
+  
     setShowModal(false);
   };
 
