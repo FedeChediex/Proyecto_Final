@@ -2,10 +2,12 @@ import sql from 'mssql'
 import config from '../../db.js'
 import 'dotenv/config'
 import { ObjetoService } from '../services/objetoService.js'
+import { UserService } from './userService.js'
 
 
 
 const objetoService = new ObjetoService()
+const userService = new UserService()
 const pTabla = process.env.DB_TABLA_PRESTAMO;
 
 export class PrestamoService {
@@ -66,6 +68,7 @@ export class PrestamoService {
     
 
     UpdatePrestamo = async (id, prestamo) => {
+        
         console.log('This is a function on the service');
         var estado = ""
         var P = await this.GetPrestamoById(id);
@@ -102,7 +105,7 @@ export class PrestamoService {
             .query(`UPDATE ${pTabla} SET Estado = @Estado, FechaAceptado = @FechaAceptado, FechaEntregado = @FechaEntregado, FechaDevuelto = @FechaDevuelto  WHERE id = @Id`);
         console.log(response)
 
-        return response.recordset;
+        return response.recordset;    
     }
 
     DeletePrestamo = async (id) => {
@@ -119,15 +122,18 @@ export class PrestamoService {
 
     AddPrestamo = async (prestamo) => {
         const error = "Algun Atributo no fue enviado correctamente"
-        const error01 = "Algun id no pertenece a un usuario"
+        const error01 = "El objeto no esta activo"
        
         if (!prestamo.FK_Objeto) {
             return error
         }
+        if(await objetoService.GetObjetoById(prestamo.FK_Objeto).Activo == false){
+            return error01
+        }
+        
         const timeElapsed = Date.now();
         const fecha = new Date(timeElapsed);
         fecha.toISOString()
-        console.log(fecha)
         var objeto = {EnPrestamo:true}
         await objetoService.UpdateObjeto(prestamo.FK_Objeto, objeto)
 

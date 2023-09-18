@@ -10,13 +10,12 @@ export class ObjetoService {
         //Busqueda por activo
         console.log('This is a function on the service');
         const cat = req.Categoria
-        const  enPrestamo = req.EnPrestamo
+        const enPrestamo = req.EnPrestamo
         const nombre = req.Nombre
         var where = ""
-        if(cat||enPrestamo||nombre||activo)
-        {
+        if (cat || enPrestamo || nombre || activo) {
             where = ' WHERE ';
-            if(cat){
+            if (cat) {
                 where += ` Fk_Categoria = ${cat}`
             }
             if (enPrestamo) {
@@ -38,11 +37,11 @@ export class ObjetoService {
                 where += `Activo = ${activo}`;
             }
         }
-        
+
         const pool = await sql.connect(config);
         const response = await pool.request()
             .query(`SELECT * from ${oTabla + where}`);
-        
+
 
         return response.recordset;
     }
@@ -55,7 +54,7 @@ export class ObjetoService {
         const response = await pool.request()
             .input('id', sql.Int, id)
             .query(`SELECT * from ${oTabla} where id = @id`);
-       
+
         return response.recordset[0];
     }
 
@@ -63,7 +62,7 @@ export class ObjetoService {
         console.log('This is a function on the service');
         let activo
         if (objeto.Estado) {
-            
+
             if (objeto.EnPrestamo == 1) {
                 activo = true
                 estado = "prestado"
@@ -73,16 +72,16 @@ export class ObjetoService {
                 estado = "Disponible"
             }
         }
-        
+
         var O = await this.GetObjetoById(id);
-        
+
         const pool = await sql.connect(config);
         const response = await pool.request()
             .input('Id', sql.Int, id)
             .input('Nombre', sql.NChar, objeto?.Nombre ?? O.Nombre)
             .input('Estado', sql.NChar, estado)
             .input('EnPrestamo', sql.Bit, objeto?.EnPrestamo ?? O.EnPrestamo)
-            
+
 
             .query(`UPDATE ${oTabla} SET Nombre = @Nombre, Estado = @Estado, EnPrestamo = @EnPrestamo  WHERE id = @Id`);
 
@@ -114,9 +113,10 @@ export class ObjetoService {
             .input('Estado', sql.NChar, objeto.Estado)
             .input('EnPrestamo', sql.Bit, objeto.EnPrestamo)
             .input('Fk_Categoria', sql.Int, objeto.FK_Categoria)
-            
+            .input('Activo', sql.Bit, true)
 
-            .query(`INSERT INTO ${oTabla} (Nombre , Estado , EnPrestamo , FK_Categoria) values (@Nombre, @Estado, @EnPrestamo, @FK_Categoria)`);
+
+            .query(`INSERT INTO ${oTabla} (Nombre , Estado , EnPrestamo , FK_Categoria, Activo) values (@Nombre, @Estado, @EnPrestamo, @FK_Categoria, @Activo)`);
         return response.recordset;
     }
 }

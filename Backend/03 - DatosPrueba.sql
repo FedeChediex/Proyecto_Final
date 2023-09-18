@@ -5,17 +5,17 @@ VALUES ('Categoria 1'),
        ('Categoria 3');
 
 -- Insertar datos en la tabla "Objeto"
-INSERT INTO dbo.Objeto (Nombre, Estado, EnPrestamo, Fk_Categoria)
-VALUES ('Objeto 1', 'Disponible', 0, 1),
-       ('Objeto 2', 'Disponible', 0, 2),
-       ('Objeto 3', 'Prestado', 1, 3),
-       ('Objeto 4', 'Disponible', 0, 1),
-       ('Objeto 5', 'Disponible', 0, 2),
-       ('Objeto 6', 'Prestado', 1, 3),
-       ('Objeto 7', 'Disponible', 0, 1),
-       ('Objeto 8', 'Disponible', 0, 2),
-       ('Objeto 9', 'Prestado', 1, 3),
-       ('Objeto 10', 'Disponible', 0, 1);
+INSERT INTO dbo.Objeto (Nombre, Estado, EnPrestamo, Fk_Categoria, Activo)
+VALUES ('Objeto 1', 'Disponible', 0, 1, 1),
+       ('Objeto 2', 'Disponible', 0, 2, 0),
+       ('Objeto 3', 'Prestado', 1, 3, 0),
+       ('Objeto 4', 'Disponible', 0, 1, 1)
+       ('Objeto 5', 'Disponible', 0, 2, 1),
+       ('Objeto 6', 'Prestado', 1, 3, 0),
+       ('Objeto 7', 'Disponible', 0, 1, 0),
+       ('Objeto 8', 'Disponible', 0, 2, 0),
+       ('Objeto 9', 'Prestado', 1, 3, 1),
+       ('Objeto 10', 'Disponible', 0, 1, 1);
 
 -- Insertar datos en la tabla "Usuario"
 INSERT INTO dbo.Usuario (Rol, Nombre, Apellido, Dni)
