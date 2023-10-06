@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { PrestamoService } from '../services/prestamoService.js';
+import { PrestamoService } from '../../services/Prestamos/prestamoService.js';
 
 const router = Router()
 const prestamoService = new PrestamoService()

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { CategoriaService } from '../services/categoriaService.js';
+import { CategoriaService } from '../../services/Prestamos/categoriaService.js';
 
 const router = Router()
 const categoriaService = new CategoriaService()

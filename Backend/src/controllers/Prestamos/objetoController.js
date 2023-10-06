@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { ObjetoService } from '../services/objetoService.js'
+import { ObjetoService } from '../../services/Prestamos/objetoService.js'
 
 
 const router = Router()

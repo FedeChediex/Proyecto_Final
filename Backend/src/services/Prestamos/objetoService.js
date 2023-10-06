@@ -1,5 +1,5 @@
 import sql from 'mssql'
-import config from '../../db.js'
+import config from '../../../db.js'
 import 'dotenv/config'
 
 const oTabla = process.env.DB_TABLA_OBJETO;
@@ -12,32 +12,25 @@ export class ObjetoService {
         const cat = req.Categoria
         const enPrestamo = req.EnPrestamo
         const nombre = req.Nombre
-        var where = ""
-        if (cat || enPrestamo || nombre || activo) {
-            where = ' WHERE ';
-            if (cat) {
-                where += ` Fk_Categoria = ${cat}`
-            }
-            if (enPrestamo) {
-                if (where !== ' WHERE ') {
-                    where += ' AND ';
-                }
-                where += `EnPrestamo = ${enPrestamo}`;
-            }
-            if (nombre) {
-                if (where !== ' WHERE ') {
-                    where += ' AND ';
-                }
-                where += `Nombre LIKE '${nombre}%'`;
-            }
-            if (activo) {
-                if (where !== ' WHERE ') {
-                    where += ' AND ';
-                }
-                where += `Activo = ${activo}`;
-            }
+        const activo = req.Activo
+        var filtros = []
+        if (cat) {
+            filtros.push(`Fk_Categoria = ${cat}`);
         }
-
+        if (enPrestamo) {
+            filtros.push(`EnPrestamo = ${enPrestamo}`);
+        }
+        if (nombre) {
+            filtros.push(`Nombre LIKE '${nombre}%'`);
+        }
+        if (activo) {
+            filtros.push(`Activo = ${activo}`);
+        }
+        if (filtros.length > 0) {
+            const where = ' WHERE ' + filtros.join(' AND ');
+            console.log(where)
+            
+        }
         const pool = await sql.connect(config);
         const response = await pool.request()
             .query(`SELECT * from ${oTabla + where}`);

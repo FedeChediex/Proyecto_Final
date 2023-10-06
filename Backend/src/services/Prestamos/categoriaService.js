@@ -1,5 +1,5 @@
 import sql from 'mssql'
-import config from '../../db.js'
+import config from '../../../db.js'
 import 'dotenv/config'
 
 const Tabla = process.env.DB_TABLA_CATEGORIA;

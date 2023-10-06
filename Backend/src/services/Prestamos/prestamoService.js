@@ -1,8 +1,8 @@
 import sql from 'mssql'
-import config from '../../db.js'
+import config from '../../../db.js'
 import 'dotenv/config'
-import { ObjetoService } from '../services/objetoService.js'
-import { UserService } from './userService.js'
+import { ObjetoService } from './objetoService.js'
+import { UserService } from '../userService.js'
 
 
 
