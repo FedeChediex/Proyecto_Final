@@ -9,7 +9,7 @@ INSERT INTO dbo.Objeto (Nombre, Estado, EnPrestamo, Fk_Categoria, Activo)
 VALUES ('Objeto 1', 'Disponible', 0, 1, 1),
        ('Objeto 2', 'Disponible', 0, 2, 0),
        ('Objeto 3', 'Prestado', 1, 3, 0),
-       ('Objeto 4', 'Disponible', 0, 1, 1)
+       ('Objeto 4', 'Disponible', 0, 1, 1),
        ('Objeto 5', 'Disponible', 0, 2, 1),
        ('Objeto 6', 'Prestado', 1, 3, 0),
        ('Objeto 7', 'Disponible', 0, 1, 0),

@@ -13,7 +13,8 @@ export class ObjetoService {
         const enPrestamo = req.EnPrestamo
         const nombre = req.Nombre
         const activo = req.Activo
-        var filtros = []
+        const where = ''
+        let filtros = [];
         if (cat) {
             filtros.push(`Fk_Categoria = ${cat}`);
         }
@@ -27,7 +28,7 @@ export class ObjetoService {
             filtros.push(`Activo = ${activo}`);
         }
         if (filtros.length > 0) {
-            const where = ' WHERE ' + filtros.join(' AND ');
+            where = ' WHERE ' + filtros.join(' AND ');
             console.log(where)
             
         }
