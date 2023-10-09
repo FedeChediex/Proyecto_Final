@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "39cdec20-c36d-4e22-8a39-13a16530bdb1",
+		"_postman_id": "c7b1316e-8bbe-4790-adc2-60f4180ba90c",
 		"name": "ProyectoFinal",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "26167424"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -206,18 +205,31 @@
 			"item": [
 				{
 					"name": "Get User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"usuario\" : 4654654\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:3000/",
+							"raw": "http://localhost:3000/auth/login",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								""
+								"auth",
+								"login"
 							]
 						}
 					},

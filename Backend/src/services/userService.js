@@ -41,4 +41,17 @@ export class UserService {
 
         return response.recordset;
     }
+
+    ExistentUser = async (req) => {
+        let existe = false
+
+        const pool = await sql.connect(config);
+        const response = await pool.request()
+            .input('dni', sql.Int, req.usuario)
+            .input('clave', sql.VarChar, req.clave)
+            .query(`Select * From ${pTabla} where Dni = @dni AND clave = @clave `);
+        console.log(response)
+        response.recordset == " []"  ? existe = false : existe = true
+        return existe
+    }
 }
