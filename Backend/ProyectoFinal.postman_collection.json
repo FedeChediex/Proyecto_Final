@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "c7b1316e-8bbe-4790-adc2-60f4180ba90c",
+		"_postman_id": "37381e4f-9720-4643-9b1c-c29b63381da1",
 		"name": "ProyectoFinal",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26167424"
 	},
 	"item": [
 		{
@@ -213,7 +214,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"usuario\" : 4654654\r\n}",
+							"raw": "{\r\n    \"usuario\" : 4654654,\r\n    \"clave\" : \"hola\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -232,6 +233,14 @@
 								"login"
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}
@@ -322,6 +331,36 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2wiOnRydWUsInVzZXJJZCI6MSwiaWF0IjoxNjk4MDExOTEzfQ.R9StzYf2d8q5MpUH70GFF4KzZmOG7ydEqOAkysBHMkY",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
