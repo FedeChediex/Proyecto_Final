@@ -42,16 +42,29 @@ export class UserService {
         return response.recordset;
     }
 
-    ExistentUser = async (req) => {
-        let existe = false
+    AddUser = async (req) => {
+        console.log('This is a function on the service');
+
+        const pool = await sql.connect(config);
+        const response = await pool.request()
+            .input('nombre', sql.VarChar, req.Nombre)
+            .input('apellido', sql.VarChar, req.Apellido)
+            .input('dni', sql.Int, req.Dni)
+            .input('clave', sql.VarChar, req.Clave)
+            .input('rol', sql.VarChar, req.Rol)
+            .query(`INSERT INTO ${pTabla} (Nombre, Apellido, Dni, Clave, Rol) VALUES (@nombre, @apellido, @dni, @clave, @rol)`);
+        console.log(response)
+
+        return response.recordset;
+    }
+
+    GetUserLogin = async (req) => {
 
         const pool = await sql.connect(config);
         const response = await pool.request()
             .input('dni', sql.Int, req.usuario)
             .input('clave', sql.VarChar, req.clave)
-            .query(`Select * From ${pTabla} where Dni = @dni AND clave = @clave `);
-        console.log(response)
-        response.recordset == " []"  ? existe = false : existe = true
-        return existe
+            .query(`Select * From ${pTabla} where Dni = @dni AND Clave = @clave `);
+        return response.recordset[0];
     }
 }
