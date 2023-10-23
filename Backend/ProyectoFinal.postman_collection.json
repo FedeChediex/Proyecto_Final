@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "37381e4f-9720-4643-9b1c-c29b63381da1",
+		"_postman_id": "d610b261-9bab-4e56-857b-316fc2a6e028",
 		"name": "ProyectoFinal",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "26167424"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -205,7 +204,7 @@
 			"name": "User",
 			"item": [
 				{
-					"name": "Get User",
+					"name": "Get Token",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -235,14 +234,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "New Request",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
 				}
 			]
 		},
@@ -250,85 +241,315 @@
 			"name": "Reportes",
 			"item": [
 				{
-					"name": "Get Labo",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
+					"name": "Laboratorio",
+					"item": [
+						{
+							"name": "Get Labo",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/labo/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"labo",
+										""
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:3000/labo/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"labo",
-								""
-							]
+						{
+							"name": "Post Labo",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Nombre\": \"OTI\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/labo/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"labo",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get LaboById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/labo/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"labo",
+										"1"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "Post Labo",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"Nombre\": \"OTI\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+					"name": "Computadora",
+					"item": [
+						{
+							"name": "Get Compu",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/compu/?funciona=",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"compu",
+										""
+									],
+									"query": [
+										{
+											"key": "funciona",
+											"value": "",
+											"description": "0 =False || 1=True"
+										}
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:3000/labo/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"labo",
-								""
-							]
+						{
+							"name": "Get CompuById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/compu/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"compu",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Compu",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n        \"Fila\": 2,\r\n        \"Columna\": 3,\r\n        \"Lado\": true,\r\n        \"Funciona\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/compu/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"compu",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post Compu",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Fila\": 4,\r\n    \"Columna\": 3,\r\n    \"Lado\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/compu/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"compu",
+										""
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "Get LaboById",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/labo/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"labo",
-								"1"
-							]
+					"name": "Reporte",
+					"item": [
+						{
+							"name": "Get Reporte",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/reporte?objetoFallo=&estado=&compu=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"reporte"
+									],
+									"query": [
+										{
+											"key": "objetoFallo",
+											"value": ""
+										},
+										{
+											"key": "estado",
+											"value": ""
+										},
+										{
+											"key": "compu",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get ReporteById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/reporte/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"reporte",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Reporte",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"FechaTerminado\":\"2023-10-24T00:00:00.000Z\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/reporte/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"reporte",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post Reporte",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"FK_Computadora\": 2,\r\n    \"FK_Usuario\": 3,\r\n    \"ObjetoFallo\" : \"mouse\",\r\n    \"Descripcion\" : \"No prende\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/reporte",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"reporte"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		}
@@ -338,7 +559,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2wiOnRydWUsInVzZXJJZCI6MSwiaWF0IjoxNjk4MDExOTEzfQ.R9StzYf2d8q5MpUH70GFF4KzZmOG7ydEqOAkysBHMkY",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2wiOnRydWUsInVzZXJJZCI6MSwiaWF0IjoxNjk4MDU5NjYxfQ.34z8H8ltbkLNFmVwPLoKiZmmCXKvR2D1wWvtIghTy24",
 				"type": "string"
 			}
 		]
