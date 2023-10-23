@@ -18,7 +18,7 @@ GetLaboById = async (id) => {
     const response = await pool.request()
         .query(`SELECT * from ${tabla} WHERE Id = ${id}`);
 
-    return response.recordset;
+    return response.recordset[0];
 }
 
 Addlaboratorio = async (laboratorio) => {

@@ -8,21 +8,21 @@ const categoriaService = new CategoriaService()
 router.get('', Authenticate,async (req, res) => {
     console.log(`This is a get operation`);
 
-    const prestamo = await categoriaService.GetCategoria();
+    const categoria = await categoriaService.GetCategoria();
 
-    return res.status(200).json(prestamo);
+    return res.status(200).json(categoria);
 });
 
 router.get('/:id', Authenticate,async (req, res) => {
     console.log('Get by ID')
     const id = req.params.id
-    const prestamo = await categoriaService.GetCategoriaById(id)
-    return res.status(200).json(prestamo)
+    const categoria = await categoriaService.GetCategoriaById(id)
+    return res.status(200).json(categoria)
 })
 
 router.post('', Authenticate,async (req, res) => {
     console.log('Post')
-    const objeto = await categoriaService.AddCategoria(req.body)
+    const categoria = await categoriaService.AddCategoria(req.body)
     return res.status(200).json(objeto)
 })
 
