@@ -30,7 +30,7 @@ export class ObjetoService {
         if (filtros.length > 0) {
             where = ' WHERE ' + filtros.join(' AND ');
             console.log(where)
-            
+
         }
         const pool = await sql.connect(config);
         const response = await pool.request()
@@ -54,18 +54,21 @@ export class ObjetoService {
 
     UpdateObjeto = async (id, objeto) => {
         console.log('This is a function on the service');
-        let activo
-        if (objeto.Estado) {
+        let activo = true
+        let estado
 
-            if (objeto.EnPrestamo == 1) {
-                activo = true
-                estado = "prestado"
-            }
-            else {
-                activo = false
-                estado = "Disponible"
-            }
+        if (objeto.Activo == false) {
+            activo = false
+            estado = "No Usable"
+            objeto.enPrestamo = 0
         }
+        else if (objeto.EnPrestamo == 1) {
+            estado = "prestado"
+        }
+        else {
+            estado = "Disponible"
+        }
+
 
         var O = await this.GetObjetoById(id);
 
@@ -75,9 +78,9 @@ export class ObjetoService {
             .input('Nombre', sql.NChar, objeto?.Nombre ?? O.Nombre)
             .input('Estado', sql.NChar, estado)
             .input('EnPrestamo', sql.Bit, objeto?.EnPrestamo ?? O.EnPrestamo)
+            .input('Activo', sql.Bit, activo)
 
-
-            .query(`UPDATE ${oTabla} SET Nombre = @Nombre, Estado = @Estado, EnPrestamo = @EnPrestamo  WHERE id = @Id`);
+            .query(`UPDATE ${oTabla} SET Nombre = @Nombre, Estado = @Estado, EnPrestamo = @EnPrestamo, Activo = @Activo  WHERE id = @Id`);
 
 
         return response.recordset;

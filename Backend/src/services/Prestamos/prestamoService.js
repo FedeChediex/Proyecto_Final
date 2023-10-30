@@ -83,13 +83,14 @@ export class PrestamoService {
             estado = "Aceptado"
         }
         else if (prestamo.FechaDevuelto == null && P.FechaDevuelto == null){
+            objeto.EnPrestamo = true
             estado = "Entregado"
         }
         else{
             objeto.EnPrestamo = false
             estado = "Terminado"
         }
-        
+        //falta ver si el objeto esta roto
         
         await objetoService.UpdateObjeto(P.FK_Objeto, objeto)
 
