@@ -64,7 +64,8 @@ export class UserService {
         const response = await pool.request()
             .input('dni', sql.Int, req.usuario)
             .input('clave', sql.VarChar, req.clave)
-            .query(`Select * From ${pTabla} where Dni = @dni AND Clave = @clave `);
+            .query(`Select Rol,Id,Nombre,Apellido,Dni From ${pTabla} where Dni = @dni AND Clave = @clave `);
+        
         return response.recordset[0];
     }
 }

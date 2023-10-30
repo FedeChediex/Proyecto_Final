@@ -15,7 +15,8 @@ router.get('/login', async (req, res) => {
     }
     const token = await getSignedToken(user)
     console.log(token)
-    return res.status(200).json(token)
+    const respuesta = {token, user}
+    return res.status(200).json(respuesta)
 })
 
 export default router
