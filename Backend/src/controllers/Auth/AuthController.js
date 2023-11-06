@@ -6,7 +6,7 @@ import { UserService } from '../../services/userService.js'
 const router = Router()
 const userService = new UserService()
 
-router.get('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
     console.log(`This is a get operation`)
     const user = await userService.GetUserLogin(req.body)
     if(!user)

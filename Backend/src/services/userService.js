@@ -11,7 +11,7 @@ export class UserService {
 
         const pool = await sql.connect(config);
         const response = await pool.request()
-            .query(`SELECT * from ${pTabla}`);
+            .query(`SELECT Rol,Id,Nombre,Apellido,Dni from ${pTabla}`);
         console.log(response)
 
         return response.recordset;
@@ -24,7 +24,7 @@ export class UserService {
         const pool = await sql.connect(config);
         const response = await pool.request()
             .input('id', sql.Int, id)
-            .query(`SELECT * from ${pTabla} where id = @id`);
+            .query(`SELECT Rol,Id,Nombre,Apellido,Dni from ${pTabla} where id = @id`);
         console.log(response)
 
         return response.recordset[0];
