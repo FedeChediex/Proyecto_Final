@@ -25,6 +25,7 @@ router.get('/:id', Authenticate, async (req, res) => {
 
 router.post('', Authenticate, async (req, res) => {
     console.log('Post')
+    
     const prestamo = await prestamoService.AddPrestamo(req.body)
     return res.status(200).json(prestamo)
 })
@@ -37,6 +38,7 @@ router.delete('/:id', Authenticate, Authorize, async (req, res) => {
 
 router.put('/:id', Authenticate, Authorize, async (req, res) => {
     console.log('Put')
+    
     const prestamo = prestamoService.UpdatePrestamo(req.params.id, req.body)
     return res.status(200).json(prestamo)
 })

@@ -8,12 +8,12 @@ export class ObjetoService {
 
     GetObjeto = async (req) => {
         //Busqueda por activo
-        console.log('This is a function on the service');
+        
         const cat = req.Categoria
         const enPrestamo = req.EnPrestamo
         const nombre = req.Nombre
         const activo = req.Activo
-        const where = ''
+        let where = ''
         let filtros = [];
         if (cat) {
             filtros.push(`Fk_Categoria = ${cat}`);
@@ -42,7 +42,6 @@ export class ObjetoService {
 
     GetObjetoById = async (id) => {
 
-        console.log('This is a function on the service', id);
 
         const pool = await sql.connect(config);
         const response = await pool.request()
@@ -53,7 +52,7 @@ export class ObjetoService {
     }
 
     UpdateObjeto = async (id, objeto) => {
-        console.log('This is a function on the service');
+        
         let activo = true
         let estado
 
@@ -87,7 +86,7 @@ export class ObjetoService {
     }
 
     /*DeleteObjeto = async (id) => {
-        console.log('This is a function on the service');
+        
 
         const pool = await sql.connect(config);
         const response = await pool.request()

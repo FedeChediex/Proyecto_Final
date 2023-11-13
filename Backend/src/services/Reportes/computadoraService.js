@@ -26,7 +26,7 @@ GetCompuById = async (id) => {
 }
 
 UpdateComputadora = async (id, compu) => {
-    console.log('This is a function on the service');
+    
     var C = await this.GetCompuById(id);
     const pool = await sql.connect(config);
     const response = await pool.request()

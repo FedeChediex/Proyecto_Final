@@ -1,7 +1,6 @@
 import express from "express";
 
-import passport from 'passport'
-import { jwtStrategy } from './src/common/jwt.strategy.js'
+
 
 import AuthRouter from "./src/controllers/Auth/AuthController.js"
 import LaboRouter from "./src/controllers/Reportes/laboratorioController.js";
@@ -16,8 +15,7 @@ const app = express()
 const port = 3000
 
 app.use(express.json())
-passport.use(jwtStrategy)
-app.use(passport.initialize())
+
 
 app.use("/auth", AuthRouter)
 

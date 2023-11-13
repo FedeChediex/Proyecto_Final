@@ -7,12 +7,12 @@ const pTabla = process.env.DB_TABLA_USER;
 export class UserService {
 
     GetUser = async () => {
-        console.log('This is a function on the service');
+        
 
         const pool = await sql.connect(config);
         const response = await pool.request()
             .query(`SELECT Rol,Id,Nombre,Apellido,Dni from ${pTabla}`);
-        console.log(response)
+        
 
         return response.recordset;
     }
@@ -25,25 +25,25 @@ export class UserService {
         const response = await pool.request()
             .input('id', sql.Int, id)
             .query(`SELECT Rol,Id,Nombre,Apellido,Dni from ${pTabla} where id = @id`);
-        console.log(response)
+        
 
         return response.recordset[0];
     }
 
     DeleteUser = async (id) => {
-        console.log('This is a function on the service');
+        
 
         const pool = await sql.connect(config);
         const response = await pool.request()
             .input('id', sql.Int, id)
             .query(`DELETE FROM ${pTabla} WHERE id = @id`);
-        console.log(response)
+        
 
         return response.recordset;
     }
 
     AddUser = async (req) => {
-        console.log('This is a function on the service');
+        
 
         const pool = await sql.connect(config);
         const response = await pool.request()
@@ -53,7 +53,7 @@ export class UserService {
             .input('clave', sql.VarChar, req.Clave)
             .input('rol', sql.VarChar, req.Rol)
             .query(`INSERT INTO ${pTabla} (Nombre, Apellido, Dni, Clave, Rol) VALUES (@nombre, @apellido, @dni, @clave, @rol)`);
-        console.log(response)
+        
 
         return response.recordset;
     }

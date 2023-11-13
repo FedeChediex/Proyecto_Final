@@ -14,8 +14,8 @@ export class ReporteService {
 
     GetReporte = async (reporte) => {
 
-        console.log('This is a function on the service');
-        console.log(reporte)
+        
+        
         let objetoFallo = reporte.objetoFallo
         let estado = reporte.estado
         let compu = reporte.compu
@@ -40,7 +40,7 @@ export class ReporteService {
         const pool = await sql.connect(config);
         const response = await pool.request()
             .query(`SELECT * from ${pTabla + where}`);
-        console.log(response)
+        
         var res = response.recordset
 
         return res;
@@ -48,14 +48,13 @@ export class ReporteService {
 
     GetReporteById = async (id) => {
 
-        console.log('This is a function on the service', id);
+        
 
         const pool = await sql.connect(config);
         const response = await pool.request()
             .input('id', sql.Int, id)
             .query(`SELECT * from ${pTabla} where id = @id`);
-        console.log(response)
-
+        
         return response.recordset[0];
     }
 
@@ -64,10 +63,11 @@ export class ReporteService {
 
     UpdateReporte = async (id, reporte) => {
 
-        console.log('This is a function on the service');
+        
         var estado = ""
         var R = await this.GetReporteById(id);
-
+        console.log(reporte.FechaAbierto)
+        console.log(R.FechaAbierto)
         if (reporte.FechaAbierto == null && R.FechaAbierto == null) {
             estado = "Pendiente"
         }
@@ -76,9 +76,10 @@ export class ReporteService {
         }
         else {
             estado = "Resuelto"
-            //no anda
-            let reporte = { "compu": R.FK_Computadora }
-            let reportesCompu = await this.GetReporte(reporte)
+            
+
+            let idCompu = { "compu": R.FK_Computadora }
+            let reportesCompu = await this.GetReporte(idCompu)
             let tieneProblemas = false
             reportesCompu.forEach(reporte => {
                 if(reporte.Estado != "Resuelto"){
@@ -86,7 +87,6 @@ export class ReporteService {
                 }
             });
            
-            
             if (tieneProblemas == false) {
                 var compu = { Funciona: true }
                 await compuService.UpdateComputadora(reporte.FK_Computadora, compu)
@@ -106,19 +106,19 @@ export class ReporteService {
             .input('FechaTerminado', sql.Date, reporte?.FechaTerminado ?? R.FechaTerminado)
 
             .query(`UPDATE ${pTabla} SET Estado = @Estado, FechaAbierto = @FechaAbierto, FechaTerminado = @FechaTerminado  WHERE id = @Id`);
-        console.log(response)
+        
 
         return response.recordset;
     }
 
     DeleteReporte = async (id) => {
-        console.log('This is a function on the service');
+        
 
         const pool = await sql.connect(config);
         const response = await pool.request()
             .input('id', sql.Int, id)
             .query(`DELETE FROM ${pTabla} WHERE id = @id`);
-        console.log(response)
+        
 
         return response.recordset;
     }
