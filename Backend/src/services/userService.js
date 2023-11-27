@@ -66,6 +66,9 @@ export class UserService {
             .input('clave', sql.VarChar, req.clave)
             .query(`Select Rol,Id,Nombre,Apellido,Dni From ${pTabla} where Dni = @dni AND Clave = @clave `);
         
+        
+        console.log("Get User Login: ",response.recordset[0])
+        
         return response.recordset[0];
     }
 }

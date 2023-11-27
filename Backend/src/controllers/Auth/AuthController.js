@@ -6,8 +6,10 @@ import { UserService } from '../../services/userService.js'
 const router = Router()
 const userService = new UserService()
 
+
+
 router.post('/login', async (req, res) => {
-    console.log(`This is a get operation`)
+    console.log(`This is a get Login`)
     const user = await userService.GetUserLogin(req.body)
     if(!user)
     {

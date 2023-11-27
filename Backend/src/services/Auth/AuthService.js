@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken"
 import "dotenv/config"
 
 export const getSignedToken = async (req) => {
+    console.log("Firmando y Creando Token")
         const token = jwt.sign(
             {
                 rol: req.Rol,

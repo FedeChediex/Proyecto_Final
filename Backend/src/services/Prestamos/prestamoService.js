@@ -9,6 +9,7 @@ import { UserService } from '../userService.js'
 const objetoService = new ObjetoService()
 const userService = new UserService()
 const pTabla = process.env.DB_TABLA_PRESTAMO;
+const join = " INNER JOIN dbo.Usuario ON dbo.Prestamo.Fk_Usuario = dbo.Usuario.Id "
 
 export class PrestamoService {
 
@@ -20,13 +21,13 @@ export class PrestamoService {
         let objeto = prestamo.FK_Objeto
 
         let where = " "
-        var join = " "
+        
         if (dni || estado || objeto) {
             where = ' WHERE ';
 
 
             if (prestamo.dni) {
-                join = " INNER JOIN dbo.Usuario ON dbo.Prestamo.Fk_Usuario = dbo.Usuario.Id"
+                
                 where += `Usuario.dni LIKE '${dni}%'`;
 
             }
@@ -55,7 +56,14 @@ export class PrestamoService {
 
         var res = response.recordset
         for (const obj of res) {
-            delete obj.Id;
+
+            let id = obj.Id[0]
+            obj.Id = id
+            
+            delete obj.Clave
+            delete obj.Rol
+            
+           
         }
         return res;
     }
@@ -65,10 +73,18 @@ export class PrestamoService {
         const pool = await sql.connect(config);
         const response = await pool.request()
             .input('id', sql.Int, id)
-            .query(`SELECT * from ${pTabla} where id = @id`);
+            .query(`SELECT * from ${pTabla + join } where dbo.Prestamo.Id = @id`);
 
-
-        return response.recordset[0];
+            var res = response.recordset[0]
+            
+                let idPrestamo = res.Id[0]
+                res.Id = idPrestamo
+                delete res.Clave
+                delete res.Rol
+            
+            return res;
+        
+        
     }
 
 
@@ -99,7 +115,7 @@ export class PrestamoService {
             estado = "Entregado"
         }
         else {
-            console.log("LALALALLA")
+            
             objeto.EnPrestamo = false
             estado = "Terminado"
         }
@@ -138,10 +154,12 @@ export class PrestamoService {
         const error = "Algun Atributo no fue enviado correctamente"
         const error01 = "El objeto no esta activo o se encuentra en un prestamo"
         let obj = await objetoService.GetObjetoById(prestamo.FK_Objeto)
+        console.log(obj)
         if (!prestamo.FK_Objeto) {
             return error
         }
         if (obj.Activo == false || obj.EnPrestamo == true) {
+            console.log(obj.Id)
             return error01
         }
 
@@ -163,6 +181,8 @@ export class PrestamoService {
             .input('Fk_Usuario', sql.Int, prestamo.FK_Usuario)
 
             .query(`INSERT INTO ${pTabla} (Estado , Fk_Objeto , FK_Usuario , FK_Admin , FechaSolicitud , FechaAceptado , FechaEntregado, FechaDevuelto) values (@Estado, @Fk_Objeto,@FK_Usuario, @FK_Admin,@FechaSolicitud, @FechaAceptado,@FechaEntregado, @FechaDevuelto)`);
-        return response.recordset;
+        
+            
+            return response.recordset;
     }
 }
